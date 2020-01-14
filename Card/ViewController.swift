@@ -9,62 +9,30 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private let padding: CGFloat = 50
+    private let padding: CGFloat = 30
+    
+    let bottomBarView = HomeBottomControlsStackView()
+    let topBarView = TopNavigationStackView()
+    let mainView = UIView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        let topBarSubviews = [UIColor.gray, UIColor.darkGray, UIColor.black].map { (color) -> UIView in
-            let view = UIView()
-            view.backgroundColor = color
-            return view
-        }
-        
-        let topBarView = UIStackView(arrangedSubviews: topBarSubviews)
-        topBarView.distribution = .fillEqually
-        topBarView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        let mainView = UIView()
+        setupLayout()
         mainView.backgroundColor = .cyan
-        mainView.layer.shadowOffset = .zero
-        mainView.layer.shadowColor = UIColor.black.cgColor
-        mainView.layer.shadowRadius = 10
-        mainView.layer.shadowOpacity = 0.4
-        mainView.layer.borderColor = UIColor.black.cgColor
-        mainView.layer.borderWidth = 2
-        
-        
-        
-        let bottomBarSubviews = [UIColor.gray, UIColor.darkGray, UIColor.white, UIColor.black, UIColor.yellow].map { (color) -> UIView in
-            let view = UIView()
-            view.backgroundColor = color
-            return view
-        }
-        
-        let bottomBarView = UIStackView(arrangedSubviews: bottomBarSubviews)
-        bottomBarView.distribution = .fillEqually
-        bottomBarView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        let stackView = UIStackView(arrangedSubviews: [topBarView, mainView, bottomBarView])
-        stackView.distribution = .fill
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.spacing = 15
-        
-        
-        view.addSubview(stackView)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.fillSuperview()
-        
-        NSLayoutConstraint.activate([
-            mainView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: padding),
-            mainView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -padding)
-        ])
-        
     }
     
+    //MARK : - Setup Layout
+    
+    fileprivate func setupLayout() {
+        let mainStackView = UIStackView(arrangedSubviews: [topBarView, mainView, bottomBarView])
+        mainStackView.axis = .vertical
+        view.addSubview(mainStackView)
+        mainStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
+        mainStackView.isLayoutMarginsRelativeArrangement = true
+       // mainStackView.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
+    }
     
 }
 
